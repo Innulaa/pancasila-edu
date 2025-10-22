@@ -201,6 +201,13 @@
     <script src="js/script.js"></script>
     <script>
         document.addEventListener('DOMContentLoaded', () => {
+            // Add login check and define username at the top
+            const username = localStorage.getItem('loggedInUser');
+            if (!username) {
+                window.location.href = 'login.html';
+                return;
+            }
+
             // Database konten materi (dalam bentuk objek JavaScript)
             const materials = {
                 'nilai-nilai': {
@@ -294,13 +301,6 @@
 
                 // Muat konten pertama secara default
                 loadContent(0);
-
-                // Add login check
-                const username = localStorage.getItem('loggedInUser');
-                if (!username) {
-                    window.location.href = 'login.html';
-                    return;
-                }
 
             } else {
                 materiTitle.innerText = 'Materi Tidak Ditemukan';
