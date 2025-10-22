@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pancasila Edu - Materi Pembelajaran</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <style>
+        /* Page-specific styles for materi.html */
+        .materi-page {
+            padding: 50px 0;
+        }
+
+        .materi-page h1 {
+            text-align: center;
+            color: var(--primary-color);
+            margin-bottom: 50px;
+            font-size: 2.8rem;
+        }
+
+        .folder-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+            margin-bottom: 50px;
+        }
+
+        .folder-card {
+            background-color: var(--card-bg);
+            border-radius: 12px;
+            box-shadow: 0 4px 15px var(--shadow-light);
+            padding: 30px;
+            text-align: center;
+            cursor: pointer;
+            transition: transform 0.3s ease, box-shadow 0.3s ease, background-color 0.3s ease;
+            border: 1px solid var(--border-color);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 180px;
+        }
+
+        body.dark-mode .folder-card {
+            background-color: var(--dark-card-bg);
+            border-color: var(--dark-border-color);
+        }
+
+        .folder-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 8px 25px var(--shadow-light);
+        }
+
+        .folder-card i {
+            font-size: 3.5rem;
+            color: var(--accent-color);
+            margin-bottom: 15px;
+        }
+
+        .folder-card h3 {
+            font-size: 1.4rem;
+            color: var(--text-color-dark);
+            margin-bottom: 0;
+        }
+
+        body.dark-mode .folder-card h3 {
+            color: var(--dark-text-color);
+        }
+
+        .note-section {
+            margin-top: 50px;
+        }
+
+        .note-section h2 {
+            color: var(--secondary-color);
+            text-align: center;
+            margin-bottom: 30px;
+            font-size: 2.2rem;
+        }
+
+        .note-card {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 40px;
+            background-color: var(--card-bg);
+            border-radius: 15px;
+            box-shadow: 0 6px 20px var(--shadow-light);
+            border: 1px solid var(--border-color);
+        }
+
+        body.dark-mode .note-card {
+            background-color: var(--dark-card-bg);
+            border-color: var(--dark-border-color);
+        }
+
+        .note-card textarea {
+            min-height: 200px;
+            background-color: var(--background-light);
+            border-color: var(--border-color);
+        }
+
+        body.dark-mode .note-card textarea {
+            background-color: var(--dark-bg);
+            border-color: var(--dark-border-color);
+        }
+
+        .note-card .btn {
+            margin-top: 20px;
+            width: 100%;
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="container">
+            <a href="index.html" class="logo">
+                <img src="img/logo.png" alt="Logo Pancasila Edu" class="logo-img"> Pancasila Edu
+            </a>
+            <nav>
+                <ul>
+                    <!-- Nav links will be dynamically updated by script.js -->
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main class="materi-page">
+        <div class="container">
+            <h1 data-aos="fade-down">Materi Pembelajaran Pancasila</h1>
+
+            <div class="folder-grid">
+                <div class="folder-card" data-aos="fade-up" data-aos-delay="100" data-folder="nilai-nilai">
+                    <i class="fas fa-folder"></i>
+                    <h3>Nilai-nilai Pancasila</h3>
+                </div>
+                <div class="folder-card" data-aos="fade-up" data-aos-delay="200" data-folder="lambang-arti">
+                    <i class="fas fa-folder"></i>
+                    <h3>Lambang & Arti Sila</h3>
+                </div>
+                <div class="folder-card" data-aos="fade-up" data-aos-delay="300" data-folder="implementasi">
+                    <i class="fas fa-folder"></i>
+                    <h3>Implementasi Sehari-hari</h3>
+                </div>
+                <div class="folder-card" data-aos="fade-up" data-aos-delay="400" data-folder="era-digital">
+                    <i class="fas fa-folder"></i>
+                    <h3>Pancasila di Era Digital</h3>
+                </div>
+            </div>
+
+            <section class="note-section" data-aos="fade-up" data-aos-delay="500">
+                <h2>📝 Catatan Kamu Hari Ini</h2>
+                <div class="note-card">
+                    <div class="form-group">
+                        <label for="userNote">Tulis refleksi atau catatan belajarmu di sini:</label>
+                        <textarea id="userNote" placeholder="Materi hari ini sangat menarik..."></textarea>
+                    </div>
+                    <button id="saveNoteBtn" class="btn btn-primary">Simpan Catatan</button>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2025 Pancasila Edu | Made with ❤️ by Intan Nur Laila</p>
+            <p class="motto">“Berkarya, Berpancasila, Berkontribusi untuk Negeri.”</p>
+        </div>
+    </footer>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script src="js/script.js"></script>
+    <script>
+        // Page-specific JavaScript for materi.html
+        document.addEventListener('DOMContentLoaded', () => {
+            const username = localStorage.getItem('loggedInUser');
+            if (!username) {
+                // Redirect to login if not logged in
+                window.location.href = 'login.html';
+                return;
+            }
+
+            const folderCards = document.querySelectorAll('.folder-card');
+            folderCards.forEach(card => {
+                card.addEventListener('click', () => {
+                    const folderName = card.dataset.folder;
+                    // Redirect to the detail page with the folder name as a URL parameter
+                    window.location.href = `materi-detail.html?folder=${folderName}`;
+                });
+            });
+
+            // --- User Notes Logic ---
+            const userNoteTextarea = document.getElementById('userNote');
+            const saveNoteBtn = document.getElementById('saveNoteBtn');
+
+            // Load note from localStorage
+            const savedNote = localStorage.getItem(`${username}_pancasilaEduUserNote`);
+            if (savedNote) {
+                userNoteTextarea.value = savedNote;
+            }
+
+            // Save note to localStorage
+            saveNoteBtn.addEventListener('click', () => {
+                localStorage.setItem(`${username}_pancasilaEduUserNote`, userNoteTextarea.value);
+                showPopup("Catatan Tersimpan", "Catatan Anda berhasil disimpan!");
+            });
+        });
+    </script>
+</body>
+</html>

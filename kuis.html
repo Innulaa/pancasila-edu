@@ -1,0 +1,655 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pancasila Edu - Kuis Interaktif</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <style>
+        /* Page-specific styles for kuis.html */
+        .quiz-page {
+            padding: 50px 0;
+        }
+
+        .quiz-page h1 {
+            text-align: center;
+            color: var(--primary-color);
+            margin-bottom: 50px;
+            font-size: 2.8rem;
+        }
+
+        .quiz-selection {
+            margin-bottom: 60px;
+        }
+
+        .quiz-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 30px;
+        }
+
+        .quiz-card {
+            background-color: var(--card-bg);
+            border-radius: 12px;
+            box-shadow: 0 4px 15px var(--shadow-light);
+            padding: 30px;
+            text-align: center;
+            cursor: pointer;
+            transition: transform 0.3s ease, box-shadow 0.3s ease, background-color 0.3s ease;
+            border: 1px solid var(--border-color);
+            min-height: 200px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        body.dark-mode .quiz-card {
+            background-color: var(--dark-card-bg);
+            border-color: var(--dark-border-color);
+        }
+
+        .quiz-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 8px 25px var(--shadow-light);
+        }
+
+        .quiz-card i {
+            font-size: 3.5rem;
+            color: var(--secondary-color);
+            margin-bottom: 15px;
+        }
+
+        .quiz-card h3 {
+            font-size: 1.5rem;
+            color: var(--text-color-dark);
+            margin-bottom: 0;
+        }
+
+        body.dark-mode .quiz-card h3 {
+            color: var(--dark-text-color);
+        }
+
+        /* Quiz Questions Display */
+        #quizContainer {
+            display: none; /* Hidden by default */
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 40px;
+            background-color: var(--card-bg);
+            border-radius: 15px;
+            box-shadow: 0 6px 20px var(--shadow-light);
+            border: 1px solid var(--border-color);
+        }
+
+        body.dark-mode #quizContainer {
+            background-color: var(--dark-card-bg);
+            border-color: var(--dark-border-color);
+        }
+
+        #quizContainer h2 {
+            color: var(--primary-color);
+            margin-bottom: 30px;
+            text-align: center;
+        }
+
+        .question-block {
+            margin-bottom: 30px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .question-block:last-child {
+            border-bottom: none;
+            margin-bottom: 0;
+            padding-bottom: 0;
+        }
+
+        .question-block p {
+            font-size: 1.15rem;
+            font-weight: 500;
+            margin-bottom: 15px;
+            color: var(--text-color-dark);
+        }
+
+        body.dark-mode .question-block p {
+            color: var(--dark-text-color);
+        }
+
+        .options label {
+            display: block;
+            background-color: var(--background-light);
+            padding: 15px 20px;
+            margin-bottom: 10px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background-color 0.3s ease, border-color 0.3s ease;
+            border: 1px solid var(--border-color);
+            color: var(--text-color-dark);
+        }
+
+        body.dark-mode .options label {
+            background-color: var(--dark-bg);
+            border-color: var(--dark-border-color);
+            color: var(--dark-text-color);
+        }
+
+        .options label:hover {
+            background-color: var(--secondary-color);
+            color: #fff;
+            border-color: var(--secondary-color);
+        }
+
+        .options input[type="radio"] {
+            margin-right: 10px;
+            accent-color: var(--primary-color); /* Style radio button */
+        }
+
+        /* Styles for quiz results */
+        .options label.correct {
+            background-color: #d4edda; /* Light green */
+            border-color: #c3e6cb;
+            color: #155724;
+        }
+
+        .options label.incorrect {
+            background-color: #f8d7da; /* Light red */
+            border-color: #f5c6cb;
+            color: #721c24;
+        }
+
+        .options input[type="radio"]:disabled {
+            cursor: not-allowed;
+        }
+        #submitQuizBtn {
+            width: 100%;
+            margin-top: 30px;
+        }
+
+        /* Quiz History & Leaderboard */
+        .history-leaderboard-section {
+            margin-top: 60px;
+            padding: 40px;
+            background-color: var(--card-bg);
+            border-radius: 15px;
+            box-shadow: 0 6px 20px var(--shadow-light);
+            border: 1px solid var(--border-color);
+        }
+
+        body.dark-mode .history-leaderboard-section {
+            background-color: var(--dark-card-bg);
+            border-color: var(--dark-border-color);
+        }
+
+        .history-leaderboard-section h2 {
+            color: var(--secondary-color);
+            text-align: center;
+            margin-bottom: 30px;
+            font-size: 2.2rem;
+        }
+
+        .history-leaderboard-content {
+            display: flex;
+            gap: 40px;
+            justify-content: space-around;
+        }
+
+        .quiz-history, .leaderboard {
+            flex: 1;
+            min-width: 300px;
+        }
+
+        .quiz-history h3, .leaderboard h3 {
+            color: var(--primary-color);
+            margin-bottom: 20px;
+            font-size: 1.6rem;
+        }
+
+        .quiz-history ul, .leaderboard ol {
+            list-style: none;
+            padding: 0;
+        }
+
+        .quiz-history ul li, .leaderboard ol li {
+            background-color: var(--background-light);
+            padding: 15px 20px;
+            margin-bottom: 10px;
+            border-radius: 8px;
+            border: 1px solid var(--border-color);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 1.05rem;
+            color: var(--text-color-dark);
+        }
+
+        body.dark-mode .quiz-history ul li, body.dark-mode .leaderboard ol li {
+            background-color: var(--dark-bg);
+            border-color: var(--dark-border-color);
+            color: var(--dark-text-color);
+        }
+
+        .leaderboard ol li:first-child {
+            background-color: var(--accent-color);
+            color: var(--text-color-dark);
+            font-weight: bold;
+            animation: glow 2s infinite ease-in-out;
+        }
+
+        body.dark-mode .leaderboard ol li:first-child {
+            background-color: var(--accent-color);
+            color: var(--text-color-dark);
+        }
+
+        .leaderboard ol li span.score {
+            font-weight: bold;
+            color: var(--primary-color);
+        }
+
+        body.dark-mode .leaderboard ol li span.score {
+            color: var(--primary-color);
+        }
+
+        @keyframes glow {
+            0% {
+                box-shadow: 0 2px 8px rgba(255, 213, 128, 0.5);
+            }
+            50% {
+                box-shadow: 0 4px 20px rgba(255, 213, 128, 0.8);
+            }
+            100% {
+                box-shadow: 0 2px 8px rgba(255, 213, 128, 0.5);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .history-leaderboard-content {
+                flex-direction: column;
+            }
+            .quiz-history, .leaderboard {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="container">
+            <a href="index.html" class="logo">
+                <img src="img/logo.png" alt="Logo Pancasila Edu" class="logo-img"> Pancasila Edu
+            </a>
+            <nav>
+                <ul>
+                    <!-- Nav links will be dynamically updated by script.js -->
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main class="quiz-page">
+        <div class="container">
+            <h1 data-aos="fade-down">🎯 Pilih Materi Kuis</h1>
+
+            <section class="quiz-selection">
+                <div class="quiz-cards">
+                    <div class="quiz-card" data-aos="fade-up" data-aos-delay="100" data-quiz-id="nilai-pancasila">
+                        <i class="fas fa-scroll"></i>
+                        <h3>Nilai-Nilai Pancasila</h3>
+                    </div>
+                    <div class="quiz-card" data-aos="fade-up" data-aos-delay="200" data-quiz-id="lambang-arti">
+                        <i class="fas fa-shield-alt"></i>
+                        <h3>Lambang & Arti</h3>
+                    </div>
+                    <div class="quiz-card" data-aos="fade-up" data-aos-delay="300" data-quiz-id="implementasi-sehari-hari">
+                        <i class="fas fa-hands-helping"></i>
+                        <h3>Implementasi Sehari-hari</h3>
+                    </div>
+                </div>
+            </section>
+
+            <section id="quizContainer" data-aos="zoom-in">
+                <h2 id="quizTitle"></h2>
+                <form id="quizForm">
+                    <!-- Questions will be dynamically loaded here -->
+                </form>
+                <button id="submitQuizBtn" class="btn btn-primary">Submit Kuis</button>
+            </section>
+
+            <section class="history-leaderboard-section" data-aos="fade-up" data-aos-delay="400">
+                <h2>Riwayat & Peringkat Kuis</h2>
+                <div class="history-leaderboard-content">
+                    <div class="quiz-history">
+                        <h3>Riwayat Kuis Terakhir</h3>
+                        <ul id="quizHistoryList">
+                            <li>Belum ada riwayat kuis.</li>
+                        </ul>
+                    </div>
+                    <div class="leaderboard">
+                        <h3>Peringkat Tertinggi</h3>
+                        <ol id="leaderboardList">
+                            <li>Belum ada peringkat.</li>
+                        </ol>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2025 Pancasila Edu | Made with ❤️ by Intan Nur Laila</p>
+            <p class="motto">“Berkarya, Berpancasila, Berkontribusi untuk Negeri.”</p>
+        </div>
+    </footer>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script src="js/script.js"></script>
+    <script>
+        // Page-specific JavaScript for kuis.html
+        document.addEventListener('DOMContentLoaded', () => {
+            const username = localStorage.getItem('loggedInUser');
+            if (!username) {
+                // Redirect to login if not logged in
+                window.location.href = 'login.html';
+                return;
+            }
+
+            const quizSelectionSection = document.querySelector('.quiz-selection');
+            const quizContainer = document.getElementById('quizContainer');
+            const quizTitle = document.getElementById('quizTitle');
+            const quizForm = document.getElementById('quizForm');
+            const submitQuizBtn = document.getElementById('submitQuizBtn');
+            const quizHistoryList = document.getElementById('quizHistoryList');
+            const leaderboardList = document.getElementById('leaderboardList');
+            
+            const correctSound = document.getElementById('correctSound');
+            const incorrectSound = document.getElementById('incorrectSound');
+
+            let currentQuizData = null;
+            let currentQuizId = null;
+
+            const quizzes = {
+                'nilai-pancasila': {
+                    title: "Kuis: Nilai-Nilai Pancasila",
+                    questions: [
+                        {
+                            q: "Sila pertama Pancasila mengajarkan tentang?",
+                            options: ["Persatuan Indonesia", "Ketuhanan Yang Maha Esa", "Kemanusiaan yang Adil dan Beradab", "Kerakyatan yang Dipimpin oleh Hikmat Kebijaksanaan"],
+                            answer: "Ketuhanan Yang Maha Esa"
+                        },
+                        {
+                            q: "Nilai gotong royong paling sesuai dengan sila ke-?",
+                            options: ["Satu", "Dua", "Tiga", "Empat"],
+                            answer: "Tiga"
+                        },
+                        {
+                            q: "Sikap musyawarah untuk mufakat adalah cerminan sila ke-?",
+                            options: ["Satu", "Dua", "Tiga", "Empat"],
+                            answer: "Empat"
+                        },
+                        {
+                            q: "Keadilan sosial bagi seluruh rakyat Indonesia adalah bunyi sila ke-?",
+                            options: ["Dua", "Tiga", "Empat", "Lima"],
+                            answer: "Lima"
+                        },
+                        {
+                            q: "Menghargai hak asasi manusia adalah implementasi dari sila ke-?",
+                            options: ["Satu", "Dua", "Tiga", "Empat"],
+                            answer: "Dua"
+                        }
+                    ]
+                },
+                'lambang-arti': {
+                    title: "Kuis: Lambang & Arti Sila",
+                    questions: [
+                        {
+                            q: "Lambang sila pertama Pancasila adalah?",
+                            options: ["Rantai", "Bintang", "Pohon Beringin", "Kepala Banteng"],
+                            answer: "Bintang"
+                        },
+                        {
+                            q: "Rantai melambangkan sila ke-?",
+                            options: ["Satu", "Dua", "Tiga", "Empat"],
+                            answer: "Dua"
+                        },
+                        {
+                            q: "Pohon Beringin adalah lambang dari sila ke-?",
+                            options: ["Satu", "Dua", "Tiga", "Empat"],
+                            answer: "Tiga"
+                        },
+                        {
+                            q: "Kepala Banteng melambangkan sila ke-?",
+                            options: ["Dua", "Tiga", "Empat", "Lima"],
+                            answer: "Empat"
+                        },
+                        {
+                            q: "Padi dan Kapas adalah lambang dari sila ke-?",
+                            options: ["Dua", "Tiga", "Empat", "Lima"],
+                            answer: "Lima"
+                        }
+                    ]
+                },
+                'implementasi-sehari-hari': {
+                    title: "Kuis: Implementasi Sehari-hari",
+                    questions: [
+                        {
+                            q: "Contoh pengamalan sila Ketuhanan Yang Maha Esa di sekolah adalah?",
+                            options: ["Membantu teman belajar", "Berdoa sebelum dan sesudah belajar", "Menjaga kebersihan kelas", "Memilih ketua kelas dengan voting"],
+                            answer: "Berdoa sebelum dan sesudah belajar"
+                        },
+                        {
+                            q: "Jika ada teman yang kesusahan, sikap yang sesuai dengan sila Kemanusiaan yang Adil dan Beradab adalah?",
+                            options: ["Mengejeknya", "Membantunya dengan ikhlas", "Mendiamkannya", "Melaporkannya ke guru"],
+                            answer: "Membantunya dengan ikhlas"
+                        },
+                        {
+                            q: "Kegiatan kerja bakti di lingkungan rumah adalah contoh pengamalan sila ke-?",
+                            options: ["Satu", "Dua", "Tiga", "Empat"],
+                            answer: "Tiga"
+                        },
+                        {
+                            q: "Saat rapat kelas, semua anggota diberi kesempatan menyampaikan pendapat. Ini sesuai dengan sila ke-?",
+                            options: ["Dua", "Tiga", "Empat", "Lima"],
+                            answer: "Empat"
+                        },
+                        {
+                            q: "Membagi tugas kelompok secara adil adalah contoh pengamalan sila ke-?",
+                            options: ["Satu", "Dua", "Tiga", "Lima"],
+                            answer: "Lima"
+                        }
+                    ]
+                }
+            };
+
+            // --- Load Quiz ---
+            document.querySelectorAll('.quiz-card').forEach(card => {
+                card.addEventListener('click', () => {
+                    currentQuizId = card.dataset.quizId;
+                    currentQuizData = quizzes[currentQuizId];
+                    if (currentQuizData) {
+                        quizTitle.innerText = currentQuizData.title;
+                        renderQuizQuestions(currentQuizData.questions);
+                        quizSelectionSection.style.display = 'none';
+                        quizContainer.style.display = 'block';
+                        AOS.refresh(); // Refresh AOS to animate the new section
+                    }
+                });
+            });
+
+            function renderQuizQuestions(questions) {
+                quizForm.innerHTML = ''; // Clear previous questions
+                questions.forEach((q, index) => {
+                    const questionBlock = document.createElement('div');
+                    questionBlock.className = 'question-block';
+                    questionBlock.innerHTML = `
+                        <p>${index + 1}. ${q.q}</p>
+                        <div class="options">
+                            ${q.options.map(option => `
+                                <label for="q${index}_${option.replace(/\s+/g, '')}">
+                                    <input type="radio" name="question${index}" value="${option}" required>
+                                    ${option}
+                                </label>
+                            `).join('')}
+                        </div>
+                    `;
+                    quizForm.appendChild(questionBlock);
+                });
+            }
+
+            // --- Submit Quiz ---
+            submitQuizBtn.addEventListener('click', () => {
+                if (!currentQuizData) return;
+
+                let score = 0;
+                const totalQuestions = currentQuizData.questions.length;
+
+                currentQuizData.questions.forEach((q, index) => {
+                    const options = document.querySelectorAll(`input[name="question${index}"]`);
+                    const correctAnswer = q.answer;
+                    let userAnswer = null;
+
+                    options.forEach(optionInput => {
+                        const label = optionInput.parentElement;
+                        // Disable all options after submitting
+                        optionInput.disabled = true;
+
+                        // Highlight the correct answer
+                        if (optionInput.value === correctAnswer) {
+                            label.classList.add('correct');
+                        }
+
+                        // Get user's answer
+                        if (optionInput.checked) {
+                            userAnswer = optionInput.value;
+                        }
+                    });
+
+                    // If user's answer is not correct, highlight their wrong choice
+                    if (userAnswer && userAnswer !== correctAnswer) {
+                        const incorrectLabel = document.querySelector(`input[name="question${index}"]:checked`).parentElement;
+                        incorrectLabel.classList.add('incorrect');
+                    }
+
+                    // Increment score if the answer is correct
+                    if (userAnswer === correctAnswer) {
+                        score++;
+                    }
+                });
+
+                // Play sound based on overall quiz result
+                if (score === totalQuestions) {
+                    correctSound.play();
+                } else {
+                    incorrectSound.play();
+                }
+                const percentage = (score / totalQuestions) * 100;
+                let motivationMessage = "";
+
+                if (percentage === 100) {
+                    motivationMessage = "Sempurna! Pengetahuan Pancasila Anda luar biasa!";
+                } else if (percentage >= 70) {
+                    motivationMessage = "Bagus sekali! Terus tingkatkan pemahaman Anda!";
+                } else {
+                    motivationMessage = "Jangan menyerah! Mari belajar lebih giat lagi tentang Pancasila.";
+                }
+
+                // Hide the submit button and show a "Try Another Quiz" button
+                submitQuizBtn.style.display = 'none';
+                let tryAgainBtn = document.getElementById('tryAgainBtn');
+                if (!tryAgainBtn) {
+                    tryAgainBtn = document.createElement('button');
+                    tryAgainBtn.id = 'tryAgainBtn';
+                    tryAgainBtn.className = 'btn btn-secondary';
+                    tryAgainBtn.innerText = 'Coba Kuis Lain';
+                    tryAgainBtn.style.marginTop = '30px';
+                    quizForm.insertAdjacentElement('afterend', tryAgainBtn);
+
+                    tryAgainBtn.addEventListener('click', () => {
+                        window.location.reload(); // Simple way to reset the page
+                    });
+                }
+                tryAgainBtn.style.display = 'block';
+
+                // Save results and show popup
+                saveQuizResult(currentQuizId, currentQuizData.title, score, totalQuestions);
+                loadQuizHistory();
+                loadLeaderboard();
+                showPopup("Hasil Kuis", `Anda mendapatkan ${score} dari ${totalQuestions} pertanyaan benar (${percentage.toFixed(0)}%).\n${motivationMessage}`, 'success', () => {
+                    // Callback is now empty as the UI reset is handled by the new button
+                });
+            });
+
+            // --- LocalStorage for Quiz Results ---
+            function saveQuizResult(quizId, quizTitle, score, totalQuestions) {
+                const results = JSON.parse(localStorage.getItem(`${username}_pancasilaEduQuizResults`)) || [];
+                const newResult = {
+                    id: Date.now(),
+                    quizId: quizId,
+                    title: quizTitle,
+                    score: score,
+                    total: totalQuestions,
+                    date: new Date().toLocaleString(),
+                    percentage: (score / totalQuestions) * 100
+                };
+                results.push(newResult);
+                localStorage.setItem(`${username}_pancasilaEduQuizResults`, JSON.stringify(results));
+            }
+
+            function loadQuizHistory() {
+                const results = JSON.parse(localStorage.getItem(`${username}_pancasilaEduQuizResults`)) || [];
+                if (results.length === 0) {
+                    quizHistoryList.innerHTML = '<li>Belum ada riwayat kuis.</li>';
+                    return;
+                }
+                quizHistoryList.innerHTML = results.slice(-5).reverse().map(result => `
+                    <li>
+                        <span>${result.title}</span>
+                        <span>${result.score}/${result.total} (${result.percentage.toFixed(0)}%) - ${result.date}</span>
+                    </li>
+                `).join('');
+            }
+
+            function loadLeaderboard() {
+                const results = JSON.parse(localStorage.getItem(`${username}_pancasilaEduQuizResults`)) || [];
+                if (results.length === 0) {
+                    leaderboardList.innerHTML = '<li>Belum ada peringkat.</li>';
+                    return;
+                }
+
+                // Group by quiz type and get highest score for each
+                const bestScoresPerQuiz = {};
+                results.forEach(result => {
+                    if (!bestScoresPerQuiz[result.quizId] || result.percentage > bestScoresPerQuiz[result.quizId].percentage) {
+                        bestScoresPerQuiz[result.quizId] = result;
+                    }
+                });
+
+                // Sort all unique best scores
+                const sortedLeaderboard = Object.values(bestScoresPerQuiz)
+                    .sort((a, b) => b.percentage - a.percentage || b.date.localeCompare(a.date)) // Sort by percentage, then by date
+                    .slice(0, 5); // Top 5
+
+                leaderboardList.innerHTML = sortedLeaderboard.map((result, index) => `
+                    <li>
+                        <span>${index + 1}. ${result.title}</span>
+                        <span class="score">${result.percentage.toFixed(0)}%</span>
+                    </li>
+                `).join('');
+            }
+
+            // Initial load for history and leaderboard
+            loadQuizHistory();
+            loadLeaderboard();
+        });
+    </script>
+</body>
+</html>

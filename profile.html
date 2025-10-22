@@ -1,0 +1,481 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pancasila Edu - Profil Pengguna</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <style>
+        .profile-page {
+            padding: 50px 0;
+        }
+
+        .profile-header {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-bottom: 50px;
+            text-align: center;
+        }
+
+        .profile-avatar-container {
+            position: relative;
+            cursor: pointer;
+            margin-bottom: 20px;
+            /* Ensure the container fits the avatar */
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+        }
+
+        .profile-avatar {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            background-color: var(--secondary-color);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 4rem;
+            color: #fff;
+            box-shadow: 0 6px 20px rgba(163, 206, 241, 0.5);
+            transition: filter 0.3s ease;
+        }
+
+        .profile-avatar-container:hover .profile-avatar {
+            filter: brightness(0.8);
+        }
+
+        .avatar-change-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.4);
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            color: #fff;
+            font-size: 2.5rem;
+        }
+
+        .profile-avatar-container:hover .avatar-change-overlay {
+            opacity: 1;
+        }
+
+        .profile-header h1 {
+            font-size: 2.5rem;
+            color: var(--primary-color);
+            margin: 0;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+            margin-bottom: 50px;
+        }
+
+        .stat-card {
+            background-color: var(--card-bg);
+            padding: 30px;
+            border-radius: 12px;
+            text-align: center;
+            box-shadow: 0 4px 15px var(--shadow-light);
+            border: 1px solid var(--border-color);
+            transition: transform 0.3s ease;
+        }
+
+        body.dark-mode .stat-card {
+            background-color: var(--dark-card-bg);
+            border-color: var(--dark-border-color);
+        }
+
+        .stat-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .stat-card i {
+            font-size: 3rem;
+            color: var(--accent-color);
+            margin-bottom: 15px;
+        }
+
+        .stat-card .stat-number {
+            font-size: 2.5rem;
+            font-weight: 700;
+            font-family: 'Poppins', sans-serif;
+            color: var(--primary-color);
+            margin-bottom: 5px;
+        }
+
+        .stat-card .stat-label {
+            font-size: 1.1rem;
+            color: var(--text-color-light);
+        }
+
+        body.dark-mode .stat-card .stat-label {
+            color: var(--dark-text-color);
+        }
+
+        .badge-display.active {
+            animation: glow 2s infinite ease-in-out;
+        }
+
+        .user-notes-section h2 {
+            text-align: center;
+            color: var(--secondary-color);
+            margin-bottom: 30px;
+        }
+
+        .user-notes-display {
+            background-color: var(--card-bg);
+            padding: 40px;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px var(--shadow-light);
+            border: 1px solid var(--border-color);
+            white-space: pre-wrap; /* Preserve line breaks from textarea */
+            font-family: 'Roboto', sans-serif;
+            line-height: 1.8;
+            min-height: 150px;
+            color: var(--text-color-dark);
+        }
+
+        body.dark-mode .user-notes-display {
+            background-color: var(--dark-card-bg);
+            border-color: var(--dark-border-color);
+            color: var(--dark-text-color);
+        }
+
+        .user-notes-display.empty {
+            font-style: italic;
+            color: var(--text-color-light);
+        }
+
+        .user-notes-section .notes-header {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .user-notes-section h2 {
+            margin-bottom: 0;
+        }
+
+        #editNoteBtn {
+            padding: 8px 15px;
+            font-size: 0.9rem;
+        }
+
+        @keyframes glow {
+            0% { box-shadow: 0 2px 8px rgba(255, 213, 128, 0.5); }
+            50% { box-shadow: 0 4px 20px rgba(255, 213, 128, 0.8); }
+            100% { box-shadow: 0 2px 8px rgba(255, 213, 128, 0.5); }
+        }
+
+        /* Avatar Modal Styles */
+        .avatar-selection-popup {
+            max-width: 600px;
+        }
+
+        .avatar-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(80px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+            margin-bottom: 30px;
+        }
+
+        .avatar-option {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            background-color: var(--background-light);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 2.5rem;
+            color: var(--text-color-dark);
+            cursor: pointer;
+            border: 2px solid transparent;
+            transition: border-color 0.3s ease, transform 0.3s ease;
+        }
+
+        .avatar-option:hover {
+            border-color: var(--primary-color);
+            transform: scale(1.1);
+        }
+
+        /* Progress Bar Styles */
+        .progress-section {
+            margin-bottom: 50px;
+        }
+
+        .progress-section h2 {
+            text-align: center;
+            color: var(--secondary-color);
+            margin-bottom: 30px;
+        }
+
+        .progress-bar-container {
+            background-color: var(--background-light);
+            border-radius: 10px;
+            height: 25px;
+            overflow: hidden;
+            box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.2);
+            border: 1px solid var(--border-color);
+        }
+
+        body.dark-mode .progress-bar-container {
+            background-color: var(--dark-bg);
+            border-color: var(--dark-border-color);
+        }
+
+        .progress-bar {
+            height: 100%;
+            width: 0%; /* Initial width */
+            background-color: var(--primary-color);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+            padding-right: 10px;
+            color: #fff;
+            font-weight: 600;
+            transition: width 1s ease-out; /* Smooth animation for width change */
+        }
+
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="container">
+            <a href="index.html" class="logo">
+                <img src="img/logo.png" alt="Logo Pancasila Edu" class="logo-img"> Pancasila Edu
+            </a>
+            <nav>
+                <ul>
+                    <!-- Nav links will be dynamically updated by script.js -->
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main class="profile-page">
+        <div class="container">
+            <div class="profile-header" data-aos="fade-down">
+                <div class="profile-avatar-container" id="changeAvatarBtn">
+                    <div class="profile-avatar">
+                        <i id="avatarIcon" class="fas fa-user"></i>
+                    </div>
+                    <div class="avatar-change-overlay"><i class="fas fa-camera"></i></div>
+                </div>
+                <h1 id="usernameDisplay">Memuat...</h1>
+            </div>
+
+            <section class="stats-grid">
+                <div class="stat-card" data-aos="fade-up" data-aos-delay="100">
+                    <i class="fas fa-tasks"></i>
+                    <div id="quizzesTaken" class="stat-number">0</div>
+                    <div class="stat-label">Kuis Selesai</div>
+                </div>
+                <div class="stat-card" data-aos="fade-up" data-aos-delay="200">
+                    <i class="fas fa-star-half-alt"></i>
+                    <div id="averageScore" class="stat-number">0%</div>
+                    <div class="stat-label">Rata-rata Skor</div>
+                </div>
+                <div class="stat-card" data-aos="fade-up" data-aos-delay="300">
+                    <i class="fas fa-fire"></i>
+                    <div id="challengeStreak" class="stat-number">0</div>
+                    <div class="stat-label">Tantangan Beruntun</div>
+                </div>
+                <div class="stat-card badge-display" data-aos="fade-up" data-aos-delay="400" id="pahlawanBadge">
+                    <i class="fas fa-award"></i>
+                    <div class="stat-number">Badge</div>
+                    <div class="stat-label">Pahlawan Pancasila</div>
+                </div>
+            </section>
+
+            <section class="progress-section" data-aos="fade-up" data-aos-delay="500">
+                <h2>Progress Belajar Materi</h2>
+                <div class="progress-bar-container">
+                    <div class="progress-bar" id="learningProgressBar">
+                        <span id="progressPercentage">0%</span>
+                    </div>
+                </div>
+            </section>
+
+            <section class="user-notes-section" data-aos="fade-up" data-aos-delay="500">
+                <div class="notes-header">
+                    <h2>📝 Catatan Terakhirmu</h2>
+                    <button id="editNoteBtn" class="btn btn-secondary">Edit</button>
+                </div>
+                <div id="userNotesDisplay" class="user-notes-display empty">
+                    Belum ada catatan yang disimpan.
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <!-- Avatar Selection Modal -->
+    <div id="avatarModal" class="popup-overlay">
+        <div class="popup-content avatar-selection-popup">
+            <h3>Pilih Avatar Anda</h3>
+            <div id="avatarGrid" class="avatar-grid">
+                <!-- Avatars will be populated by JS -->
+            </div>
+            <button id="closeAvatarModal" class="btn btn-secondary">Tutup</button>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2025 Pancasila Edu | Made with ❤️ by Intan Nur Laila</p>
+            <p class="motto">“Berkarya, Berpancasila, Berkontribusi untuk Negeri.”</p>
+        </div>
+    </footer>
+
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script src="js/script.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Check login status
+            const username = localStorage.getItem('loggedInUser');
+            if (!username) {
+                window.location.href = 'login.html'; // Redirect if not logged in
+                return;
+            }
+
+            // Display Username
+            document.getElementById('usernameDisplay').innerText = username;
+
+            // --- Load Avatar ---
+            const avatarIcon = document.getElementById('avatarIcon');
+            const savedAvatar = localStorage.getItem(`${username}_userAvatar`);
+            if (savedAvatar) {
+                avatarIcon.className = savedAvatar;
+            }
+
+            // --- Load Quiz Stats --- (user-specific)
+            const quizResults = JSON.parse(localStorage.getItem(`${username}_pancasilaEduQuizResults`)) || [];
+            const quizzesTakenEl = document.getElementById('quizzesTaken');
+            const averageScoreEl = document.getElementById('averageScore');
+
+            quizzesTakenEl.innerText = quizResults.length;
+
+            if (quizResults.length > 0) {
+                const totalPercentage = quizResults.reduce((sum, result) => sum + result.percentage, 0);
+                const avg = totalPercentage / quizResults.length;
+                averageScoreEl.innerText = `${avg.toFixed(0)}%`;
+            }
+
+            // --- Load Challenge Streak --- (user-specific)
+            const challengeStreak = localStorage.getItem(`${username}_consecutiveChallenges`) || 0;
+            document.getElementById('challengeStreak').innerText = challengeStreak;
+
+            // --- Load Badge Status --- (user-specific)
+            const hasPahlawanBadge = localStorage.getItem(`${username}_hasPahlawanBadge`) === 'true';
+            const pahlawanBadgeEl = document.getElementById('pahlawanBadge');
+            if (hasPahlawanBadge) {
+                pahlawanBadgeEl.classList.add('active');
+            } else {
+                pahlawanBadgeEl.style.opacity = '0.5';
+                pahlawanBadgeEl.style.cursor = 'not-allowed';
+            }
+
+            // --- Load User Notes --- (user-specific)
+            const savedNote = localStorage.getItem(`${username}_pancasilaEduUserNote`);
+            const userNotesDisplayEl = document.getElementById('userNotesDisplay');
+            if (savedNote) {
+                userNotesDisplayEl.innerText = savedNote;
+                userNotesDisplayEl.classList.remove('empty');
+            }
+
+            // --- Edit User Notes Logic ---
+            const editNoteBtn = document.getElementById('editNoteBtn');
+            let isEditing = false;
+
+            editNoteBtn.addEventListener('click', () => {
+                if (!isEditing) {
+                    // --- Enter Edit Mode ---
+                    const currentNote = localStorage.getItem(`${username}_pancasilaEduUserNote`) || '';
+                    const noteContainer = userNotesDisplayEl.parentElement;
+
+                    const textarea = document.createElement('textarea');
+                    textarea.className = 'form-group'; // Re-use existing styles
+                    textarea.style.width = '100%';
+                    textarea.style.minHeight = '150px';
+                    textarea.value = currentNote;
+
+                    noteContainer.replaceChild(textarea, userNotesDisplayEl);
+                    textarea.focus();
+
+                    editNoteBtn.innerText = 'Simpan';
+                    editNoteBtn.classList.replace('btn-secondary', 'btn-primary');
+                    isEditing = true;
+                } else {
+                    // --- Save and Exit Edit Mode ---
+                    const noteContainer = editNoteBtn.closest('.user-notes-section');
+                    const textarea = noteContainer.querySelector('textarea');
+                    const newNote = textarea.value;
+
+                    localStorage.setItem(`${username}_pancasilaEduUserNote`, newNote);
+                    window.location.reload(); // Simple way to refresh the view
+
+                    showPopup("Catatan Diperbarui", "Catatan Anda berhasil diperbarui!");
+                }
+            });
+
+            // --- Avatar Change Logic ---
+            const changeAvatarBtn = document.getElementById('changeAvatarBtn');
+            const avatarModal = document.getElementById('avatarModal');
+            const closeAvatarModal = document.getElementById('closeAvatarModal');
+            const avatarGrid = document.getElementById('avatarGrid');
+
+            const avatarOptions = [
+                'fas fa-user', 'fas fa-user-graduate', 'fas fa-user-tie', 'fas fa-user-secret',
+                'fas fa-user-astronaut', 'fas fa-user-ninja', 'fas fa-hippo', 'fas fa-dragon'
+            ];
+
+            // Populate avatar grid
+            avatarGrid.innerHTML = avatarOptions.map(iconClass => `
+                <div class="avatar-option" data-icon="${iconClass}">
+                    <i class="${iconClass}"></i>
+                </div>
+            `).join('');
+
+            changeAvatarBtn.addEventListener('click', () => {
+                avatarModal.classList.add('active');
+            });
+
+            closeAvatarModal.addEventListener('click', () => {
+                avatarModal.classList.remove('active');
+            });
+
+            avatarGrid.querySelectorAll('.avatar-option').forEach(option => {
+                option.addEventListener('click', () => {
+                    const selectedIcon = option.dataset.icon;
+                    // Save to localStorage
+                    localStorage.setItem(`${username}_userAvatar`, selectedIcon);
+                    // Update icon on the page
+                    avatarIcon.className = selectedIcon;
+                    avatarModal.classList.remove('active');
+                });
+            });
+        });
+    </script>
+</body>
+</html>

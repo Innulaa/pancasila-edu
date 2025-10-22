@@ -1,0 +1,504 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pancasila Edu - Belajar Nilai-nilai Pancasila</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <style>
+        /* Page-specific styles for index.html */
+        .hero-section {
+            display: flex;
+            align-items: center;
+            padding: 80px 0;
+            min-height: 80vh;
+            background: linear-gradient(135deg, var(--background-light) 0%, var(--secondary-color) 100%);
+            color: var(--text-color-dark);
+        }
+
+        body.dark-mode .hero-section {
+            background: linear-gradient(135deg, var(--dark-bg) 0%, #4a627a 100%);
+            color: var(--dark-text-color);
+        }
+
+        .hero-section h1 {
+            color: var(--primary-color);
+        }
+
+        .hero-section .lead {
+            color: var(--text-color-light);
+        }
+
+        body.dark-mode .hero-content p {
+            color: var(--dark-text-color);
+        }
+
+        #mulaiBelajarBtn {
+            animation: pulse 2.5s infinite ease-in-out;
+        }
+
+        @keyframes pulse {
+            0% {
+                transform: scale(1);
+                box-shadow: 0 4px 10px rgba(255, 111, 97, 0.3);
+            }
+            50% {
+                transform: scale(1.05);
+                box-shadow: 0 8px 25px rgba(255, 111, 97, 0.5);
+            }
+            100% {
+                transform: scale(1);
+                box-shadow: 0 4px 10px rgba(255, 111, 97, 0.3);
+            }
+        }
+
+        .hero-section .img-fluid {
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        }
+        
+        /* Daily Challenge Section */
+        .daily-challenge-section {
+            padding: 80px 0;
+            background-color: var(--card-bg);
+            text-align: center;
+        }
+
+        body.dark-mode .daily-challenge-section {
+            background-color: var(--dark-card-bg);
+        }
+
+        .daily-challenge-section h2 {
+            font-size: 2.5rem;
+            color: var(--primary-color);
+            margin-bottom: 40px;
+        }
+
+        .challenge-card {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 40px;
+            background-color: var(--background-light);
+            border-radius: 15px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+            border: 1px solid var(--border-color);
+        }
+
+        body.dark-mode .challenge-card {
+            background-color: var(--dark-bg);
+            border-color: var(--dark-border-color);
+        }
+
+        .challenge-card p {
+            font-size: 1.2rem;
+            margin-bottom: 30px;
+            color: var(--text-color-dark);
+        }
+
+        body.dark-mode .challenge-card p {
+            color: var(--dark-text-color);
+        }
+
+        .challenge-options button {
+            font-size: 1.5rem;
+            padding: 15px 30px;
+            margin: 0 15px;
+            border-radius: 10px;
+            border: none;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .challenge-options .btn-yes {
+            background-color: #4CAF50; /* Green */
+            color: white;
+        }
+
+        .challenge-options .btn-yes:hover {
+            background-color: #45a049;
+            transform: translateY(-3px);
+        }
+
+        .challenge-options .btn-no {
+            background-color: #f44336; /* Red */
+            color: white;
+        }
+
+        .challenge-options .btn-no:hover {
+            background-color: #da190b;
+            transform: translateY(-3px);
+        }
+
+        .challenge-status {
+            margin-top: 20px;
+            font-style: italic;
+            color: var(--text-color-light);
+        }
+
+        body.dark-mode .challenge-status {
+            color: var(--dark-text-color);
+        }
+
+        /* Contact Section */
+        .contact-section {
+            padding: 80px 0;
+            background-color: var(--background-light);
+        }
+
+        body.dark-mode .contact-section {
+            background-color: var(--dark-bg);
+        }
+
+        .contact-section h2 {
+            font-size: 2.5rem;
+            color: var(--primary-color);
+            text-align: center;
+            margin-bottom: 50px;
+        }
+
+        .contact-content {
+            display: flex;
+            justify-content: space-between;
+            gap: 40px;
+        }
+
+        .contact-form {
+            flex: 2;
+        }
+
+        .social-media {
+            flex: 1;
+            padding: 30px;
+            background-color: var(--card-bg);
+            border-radius: 12px;
+            box-shadow: 0 4px 15px var(--shadow-light);
+            text-align: center;
+            border: 1px solid var(--border-color);
+        }
+
+        body.dark-mode .social-media {
+            background-color: var(--dark-card-bg);
+            border-color: var(--dark-border-color);
+        }
+
+        .social-media h3 {
+            color: var(--secondary-color);
+            margin-bottom: 25px;
+        }
+
+        .social-icons a {
+            font-size: 2.5rem;
+            margin: 0 15px;
+            color: var(--text-color-light);
+            transition: color 0.3s ease, transform 0.3s ease;
+        }
+
+        body.dark-mode .social-icons a {
+            color: var(--dark-text-color);
+        }
+
+        .social-icons a:hover {
+            color: var(--primary-color);
+            transform: translateY(-5px);
+        }
+
+        /* Badge Section */
+        .badge-section {
+            padding: 50px 0;
+            text-align: center;
+            background-color: var(--secondary-color);
+            color: #fff;
+        }
+
+        body.dark-mode .badge-section {
+            background-color: #4a627a;
+        }
+
+        .badge-section h2 {
+            color: #fff;
+            margin-bottom: 20px;
+        }
+
+        .badge-card {
+            background-color: rgba(255, 255, 255, 0.2);
+            border-radius: 15px;
+            padding: 30px;
+            max-width: 400px;
+            margin: 0 auto;
+            display: none; /* Hidden by default */
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
+            border: 2px dashed rgba(255, 255, 255, 0.5);
+        }
+
+        .badge-card.active {
+            display: flex;
+        }
+
+        .badge-card i {
+            font-size: 4rem;
+            color: var(--accent-color);
+            animation: bounce 1s infinite alternate;
+        }
+
+        .badge-card h3 {
+            color: #fff;
+            font-size: 1.8rem;
+        }
+
+        .badge-card p {
+            color: #eee;
+            font-size: 1.1rem;
+        }
+
+        @keyframes bounce {
+            from { transform: translateY(0); }
+            to { transform: translateY(-10px); }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="container">
+            <a href="index.html" class="logo">
+                <img src="img/logo.png" alt="Logo Pancasila Edu" class="logo-img"> Pancasila Edu
+            </a>
+            <nav>
+                <ul>
+                    <!-- Nav links will be dynamically updated by script.js -->
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <!-- Hero Section -->
+        <section class="hero-section">
+            <div class="container py-5">
+                <div class="row align-items-center g-5">
+                    <div class="col-lg-6" data-aos="fade-right">
+                        <h1 class="display-4 fw-bold lh-1 mb-3">Selamat Datang di Pancasila Edu</h1>
+                        <p class="lead mb-4">Belajar nilai-nilai Pancasila secara interaktif dan menyenangkan.</p>
+                        <div class="d-grid gap-3 d-md-flex justify-content-md-start">
+                            <a href="#" id="mulaiBelajarBtn" class="btn btn-primary btn-lg px-4 me-md-2">Mulai Belajar</a>
+                            <a href="about.html" class="btn btn-outline-secondary btn-lg px-4">Pelajari Lebih Lanjut</a>
+                        </div>
+                    </div>
+                    <div class="col-lg-6" data-aos="fade-left">
+                        <img src="img/berandaa.png" class="img-fluid" alt="Ilustrasi Pancasila">
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Daily Challenge Section -->
+        <section class="daily-challenge-section" data-aos="fade-up">
+            <div class="container">
+                <h2>Tantangan Harian Pancasila</h2>
+                <div class="challenge-card" id="dailyChallengeCard">
+                    <p id="challengeQuestion">Apakah kamu sudah membantu temanmu hari ini?</p>
+                    <div class="challenge-options">
+                        <button class="btn-yes" id="challengeYes"><i class="fas fa-check-circle"></i> Ya</button>
+                        <button class="btn-no" id="challengeNo"><i class="fas fa-times-circle"></i> Belum</button>
+                    </div>
+                    <p class="challenge-status" id="challengeStatus"></p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Badge Section -->
+        <section class="badge-section" data-aos="zoom-in">
+            <div class="container">
+                <h2>Pahlawan Pancasila</h2>
+                <div class="badge-card" id="pahlawanPancasilaBadge">
+                    <i class="fas fa-award"></i>
+                    <h3>Selamat!</h3>
+                    <p>Anda telah menjadi Pahlawan Pancasila karena konsisten menerapkan nilai-nilai luhur!</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Contact Section -->
+        <section class="contact-section">
+            <div class="container">
+                <h2 data-aos="fade-down">Hubungi Kami</h2>
+                <div class="contact-content">
+                    <div class="contact-form card" data-aos="slide-right">
+                        <form>
+                            <div class="form-group">
+                                <label for="name">Nama</label>
+                                <input type="text" id="name" name="name" placeholder="Nama Anda" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="email">Email</label>
+                                <input type="email" id="email" name="email" placeholder="Email Anda" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="message">Pesan</label>
+                                <textarea id="message" name="message" placeholder="Pesan Anda" required></textarea>
+                            </div>
+                            <button type="submit" class="btn btn-primary">Kirim Pesan</button>
+                        </form>
+                    </div>
+                    <div class="social-media" data-aos="slide-left">
+                        <h3>Ikuti Kami</h3>
+                        <div class="social-icons">
+                            <a href="https://instagram.com" target="_blank"><i class="fab fa-instagram"></i></a>
+                            <a href="https://youtube.com" target="_blank"><i class="fab fa-youtube"></i></a>
+                            <a href="mailto:info@pancasilaedu.com"><i class="fas fa-envelope"></i></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2025 Pancasila Edu | Made with ❤️ by Intan Nur Laila</p>
+            <p class="motto">“Berkarya, Berpancasila, Berkontribusi untuk Negeri.”</p>
+        </div>
+    </footer>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script src="js/script.js"></script>
+    <script>
+        // Page-specific JavaScript for index.html
+        document.addEventListener('DOMContentLoaded', () => {
+            const isLoggedIn = localStorage.getItem('isLoggedIn') === 'true';
+            const username = localStorage.getItem('loggedInUser');
+
+            const dailyChallengeSection = document.querySelector('.daily-challenge-section');
+            const badgeSection = document.querySelector('.badge-section');
+
+            if (!isLoggedIn) {
+                // Hide sections if user is not logged in
+                if (dailyChallengeSection) dailyChallengeSection.style.display = 'none';
+                if (badgeSection) badgeSection.style.display = 'none';
+            } else {
+                // --- Daily Challenge Logic (only runs if logged in) ---
+
+
+            const mulaiBelajarBtn = document.getElementById('mulaiBelajarBtn');
+            mulaiBelajarBtn.addEventListener('click', (e) => {
+                e.preventDefault();
+                if (localStorage.getItem('isLoggedIn') !== 'true') {
+                    window.location.href = 'login.html'; // Direct to login, where they can choose to register
+                } else {
+                    window.location.href = 'materi.html'; // Or any other default page after login
+                }
+            });
+
+            const challengeCard = document.getElementById('dailyChallengeCard');
+            const challengeQuestion = document.getElementById('challengeQuestion');
+            const challengeYesBtn = document.getElementById('challengeYes');
+            const challengeNoBtn = document.getElementById('challengeNo');
+            const challengeStatus = document.getElementById('challengeStatus');
+
+            const today = new Date().toDateString(); // e.g., "Mon Jan 01 2024"
+            const lastChallengeDate = localStorage.getItem(`${username}_lastChallengeDate`);
+            const challengeCompletedToday = localStorage.getItem(`${username}_challengeCompletedToday`) === 'true';
+            let consecutiveChallenges = parseInt(localStorage.getItem(`${username}_consecutiveChallenges`)) || 0;
+
+            const questions = [
+                { q: "Apakah kamu sudah membantu temanmu hari ini?", motivation: "Hebat! Kamu sudah menerapkan nilai gotong royong!" },
+                { q: "Apakah kamu sudah menghargai perbedaan pendapat hari ini?", motivation: "Luar biasa! Kamu menjunjung tinggi persatuan dan musyawarah!" },
+                { q: "Apakah kamu sudah bersikap adil kepada semua orang hari ini?", motivation: "Mantap! Kamu telah mewujudkan keadilan sosial!" },
+                { q: "Apakah kamu sudah menjaga kebersihan lingkungan sekitarmu?", motivation: "Bagus sekali! Kamu peduli terhadap lingkungan dan sesama!" }
+            ];
+            const currentQuestionIndex = parseInt(localStorage.getItem(`${username}_currentQuestionIndex`)) || 0;
+            challengeQuestion.innerText = questions[currentQuestionIndex].q;
+
+            function updateChallengeUI() {
+                if (lastChallengeDate === today && challengeCompletedToday) {
+                    challengeOptions.style.display = 'none';
+                    challengeStatus.innerText = "Kamu sudah menyelesaikan tantangan hari ini. Sampai jumpa besok!";
+                } else {
+                    challengeOptions.style.display = 'block';
+                    challengeStatus.innerText = "";
+                }
+            }
+
+            const challengeOptions = challengeCard.querySelector('.challenge-options');
+            updateChallengeUI();
+
+            challengeYesBtn.addEventListener('click', () => handleChallengeAnswer(true));
+            challengeNoBtn.addEventListener('click', () => handleChallengeAnswer(false));
+
+            function handleChallengeAnswer(isYes) {
+                if (lastChallengeDate === today && challengeCompletedToday) {
+                    showPopup("Tantangan Harian", "Kamu sudah menyelesaikan tantangan hari ini. Sampai jumpa besok!");
+                    return;
+                }
+
+                localStorage.setItem(`${username}_lastChallengeDate`, today);
+                localStorage.setItem(`${username}_challengeCompletedToday`, 'true');
+
+                if (isYes) {
+                    consecutiveChallenges++;
+                    localStorage.setItem(`${username}_consecutiveChallenges`, consecutiveChallenges);
+                    showPopup("Hebat!", questions[currentQuestionIndex].motivation);
+                } else {
+                    consecutiveChallenges = 0; // Reset if 'No'
+                    localStorage.setItem(`${username}_consecutiveChallenges`, consecutiveChallenges);
+                    showPopup("Semangat!", "Tidak apa-apa, mari coba lagi besok untuk menerapkan nilai Pancasila!");
+                }
+
+                // Move to next question for tomorrow
+                const nextQuestionIndex = (currentQuestionIndex + 1) % questions.length;
+                localStorage.setItem(`${username}_currentQuestionIndex`, nextQuestionIndex);
+
+                updateChallengeUI();
+                checkPahlawanPancasilaBadge();
+            }
+
+            // --- Badge "Pahlawan Pancasila" Logic ---
+            const pahlawanPancasilaBadge = document.getElementById('pahlawanPancasilaBadge');
+            const hasPahlawanBadge = localStorage.getItem(`${username}_hasPahlawanBadge`) === 'true';
+
+            function checkPahlawanPancasilaBadge() {
+                if (consecutiveChallenges >= 3 && !hasPahlawanBadge) {
+                    pahlawanPancasilaBadge.classList.add('active');
+                    localStorage.setItem(`${username}_hasPahlawanBadge`, 'true');
+                    showPopup("Selamat!", "Anda telah menjadi Pahlawan Pancasila! Teruslah berkarya dan berPancasila!");
+                } else if (hasPahlawanBadge) {
+                    pahlawanPancasilaBadge.classList.add('active'); // Show if already earned
+                } else {
+                    pahlawanPancasilaBadge.classList.remove('active');
+                }
+            }
+
+            // Check badge status on page load
+            checkPahlawanPancasilaBadge();
+
+            // Reset challenge status if it's a new day
+            if (lastChallengeDate !== today) {
+                localStorage.setItem(`${username}_challengeCompletedToday`, 'false');
+                // If previous day was completed, increment consecutive, else reset
+                if (lastChallengeDate && localStorage.getItem(`${username}_challengeCompletedYesterday`) === 'true') {
+                    // Do nothing, consecutiveChallenges already updated by previous 'Yes'
+                } else {
+                    consecutiveChallenges = 0;
+                    localStorage.setItem(`${username}_consecutiveChallenges`, 0);
+                }
+                localStorage.setItem(`${username}_challengeCompletedYesterday`, localStorage.getItem(`${username}_challengeCompletedToday`)); // Store today's status for tomorrow's check
+                updateChallengeUI();
+            }
+        }
+        });
+    </script>
+</body>
+</html>

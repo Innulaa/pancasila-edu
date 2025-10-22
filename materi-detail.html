@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pancasila Edu - Detail Materi</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <style>
+        /* Page-specific styles for materi-detail.html */
+        .materi-detail-page {
+            padding: 50px 0;
+        }
+
+        .materi-detail-container {
+            display: flex;
+            gap: 40px;
+        }
+
+        .materi-sidebar {
+            flex: 0 0 280px; /* Lebar sidebar tetap */
+            background-color: var(--card-bg);
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px var(--shadow-light);
+            align-self: flex-start; /* Agar sidebar tidak meregang */
+            border: 1px solid var(--border-color);
+        }
+
+        body.dark-mode .materi-sidebar {
+            background-color: var(--dark-card-bg);
+            border-color: var(--dark-border-color);
+        }
+
+        .materi-sidebar h3 {
+            color: var(--primary-color);
+            margin-bottom: 20px;
+            font-size: 1.5rem;
+            border-bottom: 2px solid var(--border-color);
+            padding-bottom: 10px;
+        }
+
+        .materi-sidebar ul {
+            list-style: none;
+        }
+
+        .materi-sidebar ul li a {
+            display: block;
+            padding: 12px 15px;
+            color: var(--text-color-dark);
+            border-radius: 8px;
+            margin-bottom: 8px;
+            font-weight: 500;
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+
+        body.dark-mode .materi-sidebar ul li a {
+            color: var(--dark-text-color);
+        }
+
+        .materi-sidebar ul li a:hover {
+            background-color: var(--background-light);
+            color: var(--primary-color);
+        }
+
+        body.dark-mode .materi-sidebar ul li a:hover {
+            background-color: var(--dark-bg);
+        }
+
+        .materi-sidebar ul li a.active {
+            background-color: var(--primary-color);
+            color: #fff;
+            box-shadow: 0 4px 10px rgba(255, 111, 97, 0.3);
+        }
+
+        .materi-content {
+            flex: 1;
+        }
+
+        .materi-header {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .back-button {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 10px 15px;
+            background-color: var(--secondary-color);
+            color: #fff;
+            border-radius: 8px;
+            font-weight: 500;
+            transition: background-color 0.3s ease;
+        }
+
+        .back-button:hover {
+            background-color: #8fc0e0;
+            color: #fff;
+        }
+
+        .materi-content h1 {
+            color: var(--primary-color);
+            font-size: 2.8rem;
+            margin-bottom: 0;
+        }
+
+        #content-display {
+            background-color: var(--card-bg);
+            padding: 40px;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px var(--shadow-light);
+            border: 1px solid var(--border-color);
+            /* Add transition for smoother content changes */
+            transition: opacity 0.3s ease-in-out;
+        }
+        #content-display.content-hidden {
+            opacity: 0;
+            font-size: 1.1rem;
+            line-height: 1.8;
+        }
+
+        body.dark-mode #content-display {
+            background-color: var(--dark-card-bg);
+            border-color: var(--dark-border-color);
+        }
+
+        #content-display h2 {
+            color: var(--secondary-color);
+            margin-top: 20px;
+            margin-bottom: 15px;
+        }
+
+        #content-display p {
+            margin-bottom: 15px;
+        }
+
+        @media (max-width: 992px) {
+            .materi-detail-container {
+                flex-direction: column;
+            }
+            .materi-sidebar {
+                flex: 0 0 auto;
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="container">
+            <a href="index.html" class="logo">
+                <img src="img/logo.png" alt="Logo Pancasila Edu" class="logo-img"> Pancasila Edu
+            </a>
+            <nav>
+                <ul>
+                    <!-- Nav links will be dynamically updated by script.js -->
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main class="materi-detail-page">
+        <div class="container materi-detail-container">
+            <aside class="materi-sidebar" data-aos="fade-right">
+                <h3>Sub-Materi</h3>
+                <ul id="sidebar-nav">
+                    <!-- Navigasi sub-materi akan dimuat di sini -->
+                </ul>
+            </aside>
+            <section class="materi-content" data-aos="fade-left">
+                <div class="materi-header">
+                    <a href="materi.html" class="back-button"><i class="fas fa-arrow-left"></i> Kembali</a>
+                    <h1 id="materi-title">Memuat Materi...</h1>
+                </div>
+                <div id="content-display">
+                    <p>Memuat konten... Silakan pilih sub-materi dari menu di samping.</p>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2025 Pancasila Edu | Made with ❤️ by Intan Nur Laila</p>
+            <p class="motto">“Berkarya, Berpancasila, Berkontribusi untuk Negeri.”</p>
+        </div>
+    </footer>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script src="js/script.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Database konten materi (dalam bentuk objek JavaScript)
+            const materials = {
+                'nilai-nilai': {
+                    title: 'Nilai-nilai Pancasila',
+                    subtopics: [
+                        { title: 'Sila 1: Ketuhanan', content: '<h2>Sila 1: Ketuhanan Yang Maha Esa</h2><p>Mengandung nilai bahwa bangsa Indonesia percaya dan takwa kepada Tuhan Yang Maha Esa. Ini diwujudkan dengan saling menghormati kebebasan menjalankan ibadah sesuai dengan agama dan kepercayaannya masing-masing.</p>' },
+                        { title: 'Sila 2: Kemanusiaan', content: '<h2>Sila 2: Kemanusiaan yang Adil dan Beradab</h2><p>Mengakui persamaan derajat, hak, dan kewajiban asasi setiap manusia tanpa membeda-bedakan suku, keturunan, agama, dan kepercayaan. Sikap tenggang rasa dan tidak semena-mena terhadap orang lain adalah cerminannya.</p>' },
+                        { title: 'Sila 3: Persatuan', content: '<h2>Sila 3: Persatuan Indonesia</h2><p>Menempatkan persatuan, kesatuan, serta kepentingan dan keselamatan bangsa dan negara sebagai kepentingan bersama di atas kepentingan pribadi dan golongan. Cinta tanah air dan bangga sebagai bangsa Indonesia adalah wujudnya.</p>' },
+                        { title: 'Sila 4: Kerakyatan', content: '<h2>Sila 4: Kerakyatan yang Dipimpin oleh Hikmat</h2><p>Mengutamakan musyawarah dalam mengambil keputusan untuk kepentingan bersama. Setiap warga negara mempunyai kedudukan, hak, dan kewajiban yang sama dan tidak boleh memaksakan kehendak kepada orang lain.</p>' },
+                        { title: 'Sila 5: Keadilan', content: '<h2>Sila 5: Keadilan Sosial</h2><p>Mengembangkan perbuatan yang luhur, yang mencerminkan sikap dan suasana kekeluargaan dan kegotongroyongan. Bersikap adil terhadap sesama, menjaga keseimbangan antara hak dan kewajiban, serta menghormati hak orang lain.</p>' }
+                    ]
+                },
+                'lambang-arti': {
+                    title: 'Lambang & Arti Sila',
+                    subtopics: [
+                        { title: 'Bintang Tunggal', content: '<h2>Bintang Tunggal (Sila 1)</h2><p>Melambangkan cahaya kerohanian bagi setiap manusia. Latar belakang hitam melambangkan warna alam atau warna asli, yang menunjukkan bahwa Tuhan bukanlah sekadar rekaan manusia, tetapi sumber dari segala sesuatu.</p>' },
+                        { title: 'Rantai Emas', content: '<h2>Rantai Emas (Sila 2)</h2><p>Terdiri dari mata rantai yang berbentuk segi empat dan lingkaran yang saling berkaitan. Ini melambangkan bahwa setiap manusia, laki-laki dan perempuan, membutuhkan satu sama lain dan perlu bersatu agar menjadi kuat seperti sebuah rantai.</p>' },
+                        { title: 'Pohon Beringin', content: '<h2>Pohon Beringin (Sila 3)</h2><p>Pohon beringin adalah pohon besar yang bisa digunakan oleh banyak orang sebagai tempat berteduh di bawahnya. Ini melambangkan negara Indonesia yang menjadi tempat "berteduh" bagi seluruh rakyatnya. Sulur dan akarnya melambangkan suku, keturunan, dan agama yang berbeda-beda namun tetap bersatu.</p>' }
+                    ]
+                },
+                'implementasi': {
+                    title: 'Implementasi Sehari-hari',
+                    subtopics: [
+                        { title: 'Di Keluarga', content: '<h2>Implementasi di Lingkungan Keluarga</h2><p>Contohnya adalah beribadah bersama, saling menghormati antar anggota keluarga, membantu pekerjaan rumah, dan berdiskusi untuk memutuskan tujuan liburan.</p>' },
+                        { title: 'Di Sekolah', content: '<h2>Implementasi di Lingkungan Sekolah</h2><p>Contohnya adalah tidak membeda-bedakan teman, menolong teman yang kesulitan, mengikuti upacara bendera dengan khidmat, dan melakukan musyawarah saat pemilihan ketua kelas.</p>' }
+                    ]
+                },
+                'era-digital': {
+                    title: 'Pancasila di Era Digital',
+                    subtopics: [
+                        { title: 'Tantangan Digital', content: '<h2>Tantangan di Era Digital</h2><p>Penyebaran hoaks (berita bohong), ujaran kebencian, dan radikalisme online menjadi tantangan utama bagi nilai-nilai Pancasila, terutama persatuan dan kemanusiaan.</p>' },
+                        { title: 'Solusi Pancasilais', content: '<h2>Solusi Berbasis Pancasila</h2><p>Dengan menerapkan nilai Pancasila, kita bisa melawan tantangan tersebut. Sila pertama mengajarkan untuk tidak mudah percaya informasi sebelum tabayyun (klarifikasi). Sila kedua mengajarkan untuk berkomentar dengan adab. Sila ketiga mendorong kita untuk menjaga persatuan di dunia maya.</p>' }
+                    ]
+                }
+            };
+
+            const urlParams = new URLSearchParams(window.location.search);
+            const folder = urlParams.get('folder');
+            const currentMaterial = materials[folder];
+
+            const materiTitle = document.getElementById('materi-title');
+            const sidebarNav = document.getElementById('sidebar-nav');
+            const contentDisplay = document.getElementById('content-display');
+
+            if (currentMaterial) {
+                materiTitle.innerText = currentMaterial.title;
+                sidebarNav.innerHTML = ''; // Kosongkan sidebar
+
+                currentMaterial.subtopics.forEach((sub, index) => {
+                    const li = document.createElement('li');
+                    const a = document.createElement('a');
+                    a.href = '#';
+                    a.innerText = sub.title;
+                    a.dataset.index = index;
+                    li.appendChild(a);
+                    sidebarNav.appendChild(li);
+                });
+
+                const navLinks = sidebarNav.querySelectorAll('a');
+
+                function loadContent(index) {
+                    navLinks.forEach(link => link.classList.remove('active'));
+                    navLinks[index].classList.add('active');
+
+                    // Add fade-out class to hide content smoothly
+                    contentDisplay.classList.add('content-hidden');
+
+                    // Wait for the fade-out transition to complete (300ms)
+                    setTimeout(() => {
+                        contentDisplay.innerHTML = currentMaterial.subtopics[index].content;
+                        // Remove fade-out class to fade in new content
+                        contentDisplay.classList.remove('content-hidden');
+
+                        // --- Save viewed subtopic for progress tracking ---
+                        const viewedSubtopics = JSON.parse(localStorage.getItem(`${username}_viewedSubtopics`)) || [];
+                        const subtopicIdentifier = `${folder}-${currentMaterial.subtopics[index].title}`;
+                        if (!viewedSubtopics.includes(subtopicIdentifier)) {
+                            viewedSubtopics.push(subtopicIdentifier);
+                            localStorage.setItem(`${username}_viewedSubtopics`, JSON.stringify(viewedSubtopics));
+                        }
+                        AOS.refreshHard(); // Re-initialize AOS for new elements if they have data-aos attributes
+                    }, 300); // This duration should match the CSS transition duration
+                }
+                navLinks.forEach(link => {
+                    link.addEventListener('click', (e) => {
+                        e.preventDefault();
+                        const index = parseInt(e.target.dataset.index);
+                        loadContent(index);
+                    });
+                });
+
+                // Muat konten pertama secara default
+                loadContent(0);
+
+                // Add login check
+                const username = localStorage.getItem('loggedInUser');
+                if (!username) {
+                    window.location.href = 'login.html';
+                    return;
+                }
+
+            } else {
+                materiTitle.innerText = 'Materi Tidak Ditemukan';
+                contentDisplay.innerHTML = '<p>Maaf, materi yang Anda cari tidak tersedia. Silakan kembali ke halaman materi dan pilih folder yang lain.</p>';
+            }
+        });
+    </script>
+</body>
+</html>
