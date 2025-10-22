@@ -292,6 +292,10 @@
         </div>
     </header>
 
+    <!-- Audio Elements for Quiz Feedback (moved inside main for clarity) -->
+    <audio id="correctSound" src="img/correct.mp3" preload="auto"></audio>
+    <audio id="incorrectSound" src="img/incorrect.mp3" preload="auto"></audio>
+
     <main class="quiz-page">
         <div class="container">
             <h1 data-aos="fade-down">🎯 Pilih Materi Kuis</h1>
@@ -551,16 +555,19 @@
                 } else {
                     incorrectSound.play();
                 }
+                const wrongAnswers = totalQuestions - score;
                 const percentage = (score / totalQuestions) * 100;
                 let motivationMessage = "";
 
                 if (percentage === 100) {
-                    motivationMessage = "Sempurna! Pengetahuan Pancasila Anda luar biasa!";
-                } else if (percentage >= 70) {
-                    motivationMessage = "Bagus sekali! Terus tingkatkan pemahaman Anda!";
+                    motivationMessage = "Luar biasa! Anda menjawab semuanya dengan benar. Hebat, kamu telah melakukan kuis dengan baik!";
+                } else if (percentage >= 75) {
+                    motivationMessage = "Hebat, kamu telah melakukan kuis dengan baik! Terus tingkatkan pemahaman Anda.";
                 } else {
-                    motivationMessage = "Jangan menyerah! Mari belajar lebih giat lagi tentang Pancasila.";
+                    motivationMessage = "Jangan menyerah! Teruslah berlatih untuk menjadi Pahlawan Pancasila sejati.";
                 }
+
+                const resultText = `Benar: ${score}, Salah: ${wrongAnswers}\n\n${motivationMessage}`;
 
                 // Hide the submit button and show a "Try Another Quiz" button
                 submitQuizBtn.style.display = 'none';
@@ -583,7 +590,7 @@
                 saveQuizResult(currentQuizId, currentQuizData.title, score, totalQuestions);
                 loadQuizHistory();
                 loadLeaderboard();
-                showPopup("Hasil Kuis", `Anda mendapatkan ${score} dari ${totalQuestions} pertanyaan benar (${percentage.toFixed(0)}%).\n${motivationMessage}`, 'success', () => {
+                showPopup("Hasil Kuis Anda", resultText, 'success', () => {
                     // Callback is now empty as the UI reset is handled by the new button
                 });
             });
